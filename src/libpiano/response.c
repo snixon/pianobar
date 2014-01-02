@@ -592,6 +592,11 @@ PianoReturn_t PianoResponse (PianoHandle_t *ph, PianoRequest_t *req) {
 			}
 			break;
 		}
+
+		case PIANO_REQUEST_GET_AD_METADATA: {
+			printf ("ad.getAdMetadata returned: %s\n", req->responseData);
+			break;
+		}
 	}
 
 cleanup:

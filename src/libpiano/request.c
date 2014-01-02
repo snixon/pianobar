@@ -398,6 +398,23 @@ PianoReturn_t PianoRequest (PianoHandle_t *ph, PianoRequest_t *req,
 			break;
 		}
 
+		case PIANO_REQUEST_GET_AD_METADATA: {
+			PianoRequestDataGetAdMetadata_t *reqData = req->data;
+
+			assert (reqData != NULL);
+			assert (reqData->token != NULL);
+
+			json_object_object_add (j, "adToken",
+					json_object_new_string (reqData->token));
+			json_object_object_add (j, "supportAudioAds", 
+							json_object_new_boolean (true));
+			json_object_object_add (j, "includeBannerAd", 
+							json_object_new_boolean (false));
+
+			method = "ad.getAdMetadata";
+			break;
+		}
+
 		/* "high-level" wrapper */
 		case PIANO_REQUEST_RATE_SONG: {
 			/* love/ban song */
