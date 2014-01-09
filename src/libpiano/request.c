@@ -80,6 +80,10 @@ PianoReturn_t PianoRequest (PianoHandle_t *ph, PianoRequest_t *req,
 							json_object_new_string ("5"));
 					json_object_object_add (j, "includeUrls",
 							json_object_new_boolean (true));
+					json_object_object_add (j, "returnDeviceType",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "returnUpdatePromptVersions",
+							json_object_new_boolean (true));
 					snprintf (req->urlPath, sizeof (req->urlPath),
 							PIANO_RPC_PATH "method=auth.partnerLogin");
 					break;
@@ -133,6 +137,22 @@ PianoReturn_t PianoRequest (PianoHandle_t *ph, PianoRequest_t *req,
 
 			json_object_object_add (j, "stationToken",
 					json_object_new_string (reqData->station->id));
+			json_object_object_add (j, "includeTrackLength",
+					json_object_new_boolean (true));
+			json_object_object_add (j, "includeAudioToken",
+					json_object_new_boolean (true));
+			json_object_object_add (j, "xplatformAdCapable",
+					json_object_new_boolean (true));
+			json_object_object_add (j, "includeAudioReceiptUrl",
+					json_object_new_boolean (true));
+			json_object_object_add (j, "includeCompetitiveSepIndicator",
+					json_object_new_boolean (true));
+			json_object_object_add (j, "includeCompletePlaylist",
+					json_object_new_boolean (true));
+			json_object_object_add (j, "includeTrackOptions",
+					json_object_new_boolean (true));
+			json_object_object_add (j, "audioAdPodCapable",
+					json_object_new_boolean (true));
 
 			method = "station.getPlaylist";
 			break;

@@ -251,7 +251,7 @@ static void BarMainStartPlayback (BarApp_t *app, pthread_t *playerThread) {
 	WaitressReturn_t wRet;
 	PianoRequestDataGetAdMetadata_t adReqData;
 	char token[100];
-	snprintf (token, sizeof (token)-1, "%s-none", app->curStation->id);
+	snprintf (token, sizeof (token)-1, "%s-pod:1/1/0", app->curStation->id);
 
 	adReqData.token = strdup (token);
 	BarUiMsg (&app->settings, MSG_INFO, "Fetching ads... ");
