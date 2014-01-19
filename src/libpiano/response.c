@@ -38,7 +38,12 @@ THE SOFTWARE.
 #include "crypt.h"
 
 static char *PianoJsonStrdup (json_object *j, const char *key) {
-	return strdup (json_object_get_string (json_object_object_get (j, key)));
+	json_object * const o = json_object_object_get (j, key);
+	if (o != NULL) {
+		return strdup (json_object_get_string (o));
+	} else {
+		return NULL;
+	}
 }
 
 static void PianoJsonParseStation (json_object *j, PianoStation_t *s) {
@@ -234,24 +239,12 @@ PianoReturn_t PianoResponse (PianoHandle_t *ph, PianoRequest_t *req) {
 					return PIANO_RET_OUT_OF_MEMORY;
 				}
 
-				if (json_object_object_get (s, "adToken") != NULL) {
-					printf ("song has ad token: %s\n", json_object_get_string (json_object_object_get (s, "adToken")));
-					free (song);
-					continue;
-				}
-
-				if (json_object_object_get (s, "artistName") == NULL) {
-					free (song);
-					continue;
-				}
-
 				/* get audio url based on selected quality */
 				static const char *qualityMap[] = {"", "lowQuality", "mediumQuality",
 						"highQuality"};
 				assert (reqData->quality < sizeof (qualityMap)/sizeof (*qualityMap));
 				static const char *formatMap[] = {"", "aacplus", "mp3"};
 				json_object *map = json_object_object_get (s, "audioUrlMap");
-				assert (map != NULL);
 
 				if (map != NULL) {
 					map = json_object_object_get (map, qualityMap[reqData->quality]);
@@ -283,6 +276,7 @@ PianoReturn_t PianoResponse (PianoHandle_t *ph, PianoRequest_t *req) {
 				song->stationId = PianoJsonStrdup (s, "stationId");
 				song->coverArt = PianoJsonStrdup (s, "albumArtUrl");
 				song->detailUrl = PianoJsonStrdup (s, "songDetailUrl");
+				song->adToken = PianoJsonStrdup (s, "adToken");
 				song->fileGain = json_object_get_double (
 						json_object_object_get (s, "trackGain"));
 				switch (json_object_get_int (json_object_object_get (s,

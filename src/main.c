@@ -250,14 +250,14 @@ static void BarMainStartPlayback (BarApp_t *app, pthread_t *playerThread) {
 	PianoReturn_t pRet;
 	WaitressReturn_t wRet;
 	PianoRequestDataGetAdMetadata_t adReqData;
-	char token[100];
-	snprintf (token, sizeof (token)-1, "%s-pod:1/1/0", app->curStation->id);
 
-	adReqData.token = strdup (token);
-	BarUiMsg (&app->settings, MSG_INFO, "Fetching ads with token %s... ", token);
-	BarUiPianoCall (app, PIANO_REQUEST_GET_AD_METADATA,
-			&adReqData, &pRet, &wRet);
-	free (adReqData.token);
+	if (app->playlist->adToken != NULL) {
+		adReqData.token = app->playlist->adToken;
+		BarUiMsg (&app->settings, MSG_INFO, "Fetching ads with token %s... ",
+				adReqData.token);
+		BarUiPianoCall (app, PIANO_REQUEST_GET_AD_METADATA,
+				&adReqData, &pRet, &wRet);
+	}
 
 	BarUiPrintSong (&app->settings, app->playlist, app->curStation->isQuickMix ?
 			PianoFindStationById (app->ph.stations,
