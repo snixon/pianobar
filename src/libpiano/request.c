@@ -426,10 +426,14 @@ PianoReturn_t PianoRequest (PianoHandle_t *ph, PianoRequest_t *req,
 
 			json_object_object_add (j, "adToken",
 					json_object_new_string (reqData->token));
-			json_object_object_add (j, "supportAudioAds", 
+			json_object_object_add (j, "returnAdTrackingTokens",
 							json_object_new_boolean (true));
-			json_object_object_add (j, "includeBannerAd", 
-							json_object_new_boolean (false));
+			json_object_object_add (j, "supportAudioAds",
+							json_object_new_boolean (true));
+			json_object_object_add (j, "includeBannerAd",
+							json_object_new_boolean (true));
+			json_object_object_add (j, "includeListeningHours",
+							json_object_new_boolean (true));
 
 			method = "ad.getAdMetadata";
 			break;

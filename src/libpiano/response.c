@@ -26,6 +26,7 @@ THE SOFTWARE.
 #define _DARWIN_C_SOURCE /* strdup() on OS X */
 #endif
 
+#include <stdio.h>
 #include <json.h>
 #include <string.h>
 #include <assert.h>
@@ -231,6 +232,12 @@ PianoReturn_t PianoResponse (PianoHandle_t *ph, PianoRequest_t *req) {
 
 				if ((song = calloc (1, sizeof (*song))) == NULL) {
 					return PIANO_RET_OUT_OF_MEMORY;
+				}
+
+				if (json_object_object_get (s, "adToken") != NULL) {
+					printf ("song has ad token: %s\n", json_object_get_string (json_object_object_get (s, "adToken")));
+					free (song);
+					continue;
 				}
 
 				if (json_object_object_get (s, "artistName") == NULL) {
