@@ -595,7 +595,32 @@ PianoReturn_t PianoResponse (PianoHandle_t *ph, PianoRequest_t *req) {
 		}
 
 		case PIANO_REQUEST_GET_AD_METADATA: {
-			printf ("ad.getAdMetadata returned: %s\n", req->responseData);
+			PianoRequestDataGetAdMetadata_t *reqData = req->data;
+
+			assert (reqData != NULL);
+
+			json_object *token = json_object_object_get (result,
+					"adTrackingTokens");
+			if (token != NULL) {
+				reqData->retTokenCount = json_object_array_length (token);
+				reqData->retToken = malloc (reqData->retTokenCount *
+						sizeof (*reqData->retToken));
+				for (size_t i = 0; i < reqData->retTokenCount; i++) {
+					json_object * const t = json_object_array_get_idx (token,
+							i);
+					assert (t != NULL);
+					reqData->retToken[i] = strdup (json_object_get_string (t));
+					printf ("added tracking token %s\n", reqData->retToken[i]);
+				}
+			} else {
+				reqData->retTokenCount = 0;
+				reqData->retToken = NULL;
+			}
+			break;
+		}
+
+		case PIANO_REQUEST_REGISTER_AD: {
+			printf ("req->responseData: %s\n", req->responseData);
 			break;
 		}
 	}

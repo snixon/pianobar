@@ -439,6 +439,28 @@ PianoReturn_t PianoRequest (PianoHandle_t *ph, PianoRequest_t *req,
 			break;
 		}
 
+		case PIANO_REQUEST_REGISTER_AD: {
+			PianoRequestDataRegisterAd_t *reqData = req->data;
+
+			assert (reqData != NULL);
+			assert (reqData->token != NULL);
+			assert (reqData->tokenCount > 0);
+			assert (reqData->station != NULL);
+			assert (reqData->station->id != NULL);
+
+			json_object_object_add (j, "stationId",
+					json_object_new_string (reqData->station->id));
+			json_object * const token = json_object_new_array ();
+			for (size_t i = 0; i < reqData->tokenCount; i++) {
+				json_object_array_add (token,
+						json_object_new_string (reqData->token[i]));
+			}
+			json_object_object_add (j, "adTrackingTokens", token);
+
+			method = "ad.registerAd";
+			break;
+		}
+
 		/* "high-level" wrapper */
 		case PIANO_REQUEST_RATE_SONG: {
 			/* love/ban song */
