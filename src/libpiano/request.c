@@ -103,6 +103,36 @@ PianoReturn_t PianoRequest (PianoHandle_t *ph, PianoRequest_t *req,
 							json_object_new_string (ph->partner.authToken));
 					json_object_object_add (j, "syncTime",
 							json_object_new_int (timestamp));
+					json_object_object_add (j, "includePandoraOneInfo",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeDemographics",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeAdAttributes",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeShuffleInsteadOfQuickMix",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "returnCollectTrackLifetimeStats",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "xplatformAdCapable",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "returnUserstate",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeListeningHours",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeDailySkipLimit",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeSkipDelay",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeAdvertiserAttributes",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includePlaylistAttributes",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeSkipAttributes",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeStationExpirationTime",
+							json_object_new_boolean (true));
+					json_object_object_add (j, "includeStationDescription",
+							json_object_new_boolean (true));
 
 					urlencAuthToken = WaitressUrlEncode (ph->partner.authToken);
 					assert (urlencAuthToken != NULL);

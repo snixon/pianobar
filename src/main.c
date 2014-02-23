@@ -254,6 +254,7 @@ static void BarMainStartPlayback (BarApp_t *app, pthread_t *playerThread) {
 	if (app->playlist->adToken != NULL) {
 		PianoRequestDataGetAdMetadata_t adReqData;
 
+		memset (&adReqData, 0, sizeof (adReqData));
 		adReqData.token = app->playlist->adToken;
 
 		BarUiMsg (&app->settings, MSG_INFO, "Fetching ads with token %s... ",

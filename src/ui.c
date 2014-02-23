@@ -181,6 +181,7 @@ int BarUiPianoCall (BarApp_t * const app, PianoRequestType_t type,
 			PianoDestroyRequest (&req);
 			return 0;
 		}
+		printf ("json: %s\n", req.responseData);
 
 		*pRet = PianoResponse (&app->ph, &req);
 		if (*pRet != PIANO_RET_CONTINUE_REQUEST) {
